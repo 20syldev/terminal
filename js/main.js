@@ -210,6 +210,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const terminal = document.getElementById('terminal');
     const topBar = document.getElementById('top-bar');
+    const resizeHandles = document.querySelectorAll('.resize-handle');
+
+
+    resizeHandles.forEach(handle => {
+        handle.addEventListener('mousedown', (e) => {
+            isResizing = true;
+            currentHandle = handle;
+            initialMouseX = e.clientX;
+            initialMouseY = e.clientY;
+            initialWidth = terminal.offsetWidth;
+            initialHeight = terminal.offsetHeight;
+            document.body.style.cursor = handle.style.cursor;
+            e.preventDefault();
+        });
+    });
 
     document.addEventListener('mousemove', (e) => {
         if (isResizing) {
