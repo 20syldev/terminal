@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Terminal - user@bash</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="icon shortcut" href="images/logo.png">
+</head>
+<body>
+    
+    <div class="app" id="terminal">
+        <div class="top-bar" id="top-bar" draggable="true">      
+            <div class="title" id="bar-title">user@bash</div>
+            
+            <div class="actionbuttons">
+                <div class="buttons">
+                    <span id="minimize" class="minimize"></span>
+                    <span id="zoom" class="zoom"></span>
+                    <span id="close" class="close"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="terminal" id="terminal-body">
+            <div class="output"></div>
+            <div class="input-line">
+                <span id="prompt" class="prompt">user@bash:~$</span>
+                <input type="text" class="input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </div>
+            <div class="output-after-input"></div>
+        </div>
+    </div>
+
+    <!-- Charger le Js-->
+    <script src="js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
