@@ -89,6 +89,10 @@ const asciiColors = {
     'browser': ['#a9a9a9', '#dfdfdf']
 };
 
+const terminal = document.getElementById('terminal');
+const terminalBody = document.getElementById('terminal-body');
+const topBar = document.getElementById('top-bar');
+
 function getPermissions(path, user) { return true; }
 
 function formatMilliseconds(ms, short = false) {
@@ -105,6 +109,39 @@ function formatMilliseconds(ms, short = false) {
     if (seconds > 0 || result.length === 0) result.push(seconds + (short ? 's ' : ' second' + (seconds > 1 ? 's' : '')));
 
     return result.join(' and ');
+}
+
+function resizeWindow() {
+    if (terminalBody.style.display == 'none') {
+        terminalBody.style.display = 'block';
+        topBar.style.borderBottomRightRadius = '0';
+        topBar.style.borderBottomLeftRadius = '0';
+    }
+    if (terminalBody.style.width == '99%') {
+        terminalBody.style.width = '80%';
+        terminalBody.style.height = '370px';
+        terminalBody.style.left = '10%';
+        terminalBody.style.top = '10%';
+        topBar.style.borderTopRightRadius = '5px';
+        topBar.style.borderTopLeftRadius = '5px';
+        topBar.style.width = '80%';
+        terminal.style.maxWidth = '800px';
+        topBar.draggable = true;
+        topBar.style.cursor = 'grab';
+    } else {
+        terminalBody.style.width = '99%';
+        terminalBody.style.height = '99%';
+        terminalBody.style.left = '0';
+        terminalBody.style.top = '0';
+        topBar.style.width = '99%';
+        topBar.style.borderTopRightRadius = '0';
+        topBar.style.borderTopLeftRadius = '0';
+        terminal.style.maxWidth = 'none';
+        terminal.style.left = '0px';
+        terminal.style.top = '0px';
+        topBar.draggable = false;
+        topBar.style.cursor = 'default';
+    }
 }
 
 var mode = 'normal'
@@ -188,9 +225,6 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     
     let currentDir = '/';
-    let initialMouseX, initialMouseY, initialWidth, initialHeight;
-    let currentHandle = null;
-    let isResizing = false;
     let sudoLogin = false;
     let stats = {
         commands: {}, 
@@ -208,61 +242,16 @@ document.addEventListener('DOMContentLoaded', function () {
     if (localStorage.getItem('settings')) settings = JSON.parse(localStorage.getItem('settings'));
     if (localStorage.getItem('stats')) stats = JSON.parse(localStorage.getItem('stats'));
 
-    const terminal = document.getElementById('terminal');
-    const topBar = document.getElementById('top-bar');
-    const resizeHandles = document.querySelectorAll('.resize-handle');
-
-
-    resizeHandles.forEach(handle => {
-        handle.addEventListener('mousedown', (e) => {
-            isResizing = true;
-            currentHandle = handle;
-            initialMouseX = e.clientX;
-            initialMouseY = e.clientY;
-            initialWidth = terminal.offsetWidth;
-            initialHeight = terminal.offsetHeight;
-            document.body.style.cursor = handle.style.cursor;
-            e.preventDefault();
-        });
-    });
-
-    document.addEventListener('mousemove', (e) => {
-        if (isResizing) {
-            const dx = e.clientX - initialMouseX;
-            const dy = e.clientY - initialMouseY;
-
-            if (currentHandle.classList.contains('top-left')) {
-                terminal.style.width = `${initialWidth - dx}px`;
-                terminal.style.height = `${initialHeight - dy}px`;
-                terminal.style.top = `${terminal.offsetTop + dy}px`;
-                terminal.style.left = `${terminal.offsetLeft + dx}px`;
-            } else if (currentHandle.classList.contains('top-right')) {
-                terminal.style.width = `${initialWidth + dx}px`;
-                terminal.style.height = `${initialHeight - dy}px`;
-                terminal.style.top = `${terminal.offsetTop + dy}px`;
-            } else if (currentHandle.classList.contains('bottom-left')) {
-                terminal.style.width = `${initialWidth - dx}px`;
-                terminal.style.height = `${initialHeight + dy}px`;
-                terminal.style.left = `${terminal.offsetLeft + dx}px`;
-            } else if (currentHandle.classList.contains('bottom-right')) {
-                terminal.style.width = `${initialWidth + dx}px`;
-                terminal.style.height = `${initialHeight + dy}px`;
-            }
-        }
-    });
-
-    document.addEventListener('mouseup', () => {
-        if (isResizing) {
-            isResizing = false;
-            document.body.style.cursor = 'default';
-        }
-    });
-
     let isDragging = false;
     let offsetX, offsetY;
 
+    topBar.addEventListener('dblclick', function () {
+        terminal.style.transition = 'all 0.3s ease';
+        resizeWindow();
+    });
     topBar.addEventListener('dragstart', (e) => {
-        if (document.getElementById('terminal-body').style.width != '99%') {
+        terminal.style.transition = 'none';
+        if (terminalBody.style.width != '99%') {
             isDragging = true;
             offsetX = e.clientX - terminal.offsetLeft;
             offsetY = e.clientY - terminal.offsetTop;
@@ -288,65 +277,34 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const minimizeButton = document.getElementById('minimize');
-    const closeButton = document.getElementById('close');
     const zoomButton = document.getElementById('zoom');
+    const closeButton = document.getElementById('close');
 
     minimizeButton.addEventListener('click', function () {
-        if (document.getElementById('terminal-body').style.display != 'none') {
-            document.getElementById('terminal-body').style.display = 'none';
-            document.getElementById('top-bar').style.borderBottomRightRadius = '5px';
-            document.getElementById('top-bar').style.borderBottomLeftRadius = '5px';
-            document.getElementById('top-bar').style.borderTopRightRadius = '5px';
-            document.getElementById('top-bar').style.borderTopLeftRadius = '5px';
-            document.getElementById('top-bar').style.width = '200px';
+        if (terminalBody.style.display != 'none') {
+            terminalBody.style.display = 'none';
+            topBar.style.borderBottomRightRadius = '5px';
+            topBar.style.borderBottomLeftRadius = '5px';
+            topBar.style.borderTopRightRadius = '5px';
+            topBar.style.borderTopLeftRadius = '5px';
+            topBar.style.width = '200px';
         } else {
-            document.getElementById('terminal-body').style.display = 'block';
-            document.getElementById('top-bar').style.borderBottomRightRadius = '0';
-            document.getElementById('top-bar').style.borderBottomLeftRadius = '0';
-            if (document.getElementById('terminal-body').style.width == '99%') {
-                document.getElementById('top-bar').style.width = '99%';
+            terminalBody.style.display = 'block';
+            topBar.style.borderBottomRightRadius = '0';
+            topBar.style.borderBottomLeftRadius = '0';
+            if (terminalBody.style.width == '99%') {
+                topBar.style.width = '99%';
             } else {
-                document.getElementById('top-bar').style.width = '80%';
+                topBar.style.width = '80%';
             }
         }
     });
 
+    zoomButton.addEventListener('click', resizeWindow);
+
     closeButton.addEventListener('click', function () {
         document.location.href = 'https://sylvain.pro';
-        document.getElementById('terminal').style.display = 'none';
-    });
-
-    zoomButton.addEventListener('click', function () {
-        if (document.getElementById('terminal-body').style.display == 'none') {
-            document.getElementById('terminal-body').style.display = 'block';
-            document.getElementById('top-bar').style.borderBottomRightRadius = '0';
-            document.getElementById('top-bar').style.borderBottomLeftRadius = '0';
-        }
-        if (document.getElementById('terminal-body').style.width == '99%') {
-            document.getElementById('terminal-body').style.width = '80%';
-            document.getElementById('terminal-body').style.height = '370px';
-            document.getElementById('terminal-body').style.left = '10%';
-            document.getElementById('terminal-body').style.top = '10%';
-            document.getElementById('top-bar').style.borderTopRightRadius = '5px';
-            document.getElementById('top-bar').style.borderTopLeftRadius = '5px';
-            document.getElementById('top-bar').style.width = '80%';
-            document.getElementById('terminal').style.maxWidth = '800px';
-            topBar.draggable = true;
-            topBar.style.cursor = 'grab';
-        } else {
-            document.getElementById('terminal-body').style.width = '99%';
-            document.getElementById('terminal-body').style.height = '99%';
-            document.getElementById('terminal-body').style.left = '0';
-            document.getElementById('terminal-body').style.top = '0';
-            document.getElementById('top-bar').style.width = '99%';
-            document.getElementById('top-bar').style.borderTopRightRadius = '0';
-            document.getElementById('top-bar').style.borderTopLeftRadius = '0';
-            document.getElementById('terminal').style.maxWidth = 'none';
-            terminal.style.left = '0px';
-            terminal.style.top = '0px';
-            topBar.draggable = false;
-            topBar.style.cursor = 'default';
-        }
+        terminal.style.display = 'none';
     });
 
     let javascriptHistory = ''
@@ -1739,8 +1697,8 @@ Options:
             execute: function () {
                 var element = document.getElementById('terminal-body');
 
-                document.getElementById('terminal-body').style.borderBottomRightRadius = '0';
-                document.getElementById('terminal-body').style.borderBottomLeftRadius = '0';
+                terminalBody.style.borderBottomRightRadius = '0';
+                terminalBody.style.borderBottomLeftRadius = '0';
                 inputElement.value = '';
                 prompt.textContent = '';
 
@@ -1757,8 +1715,8 @@ Options:
                     stats.screenshots[today] = stats.screenshots[today] ? stats.screenshots[today] + 1 : 1;
                     localStorage.setItem('stats', JSON.stringify(stats));
 
-                    document.getElementById('terminal-body').style.borderBottomRightRadius = '5px';
-                    document.getElementById('terminal-body').style.borderBottomLeftRadius = '5px';
+                    terminalBody.style.borderBottomRightRadius = '5px';
+                    terminalBody.style.borderBottomLeftRadius = '5px';
                     if (settings.colors) {
                         prompt.innerHTML = `<span style='color: ${settings.currentUser == 0 ? '#a82403' : '#34a853'}'>${settings.users.find(u => u.UID == settings.currentUser).name}@${browserName}</span>:<span style='color: #3f65bd'>${currentDir}</span>${settings.currentUser == 0 ? '#' : '$'}`;
                     } else {
