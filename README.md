@@ -1,8 +1,8 @@
 <div align="center">
-  <a href="https://terminal.sylvain.pro"><img src="https://terminal.sylvain.pro/images/logo.png" alt="Logo" width="25%" height="auto"></a>
+  <a href="https://terminal.sylvain.pro"><img src="https://terminal.sylvain.pro/assets/images/logo.png" alt="Logo" width="25%" height="auto"/></a>
 
   # Web Linux Terminal
-  [![Version](https://custom-icon-badges.demolab.com/badge/Version%20:-v1.0.2-6479ee?logo=terminal.sylvain.pro&labelColor=23272A)](https://github.com/20syldev/terminal/releases/latest)
+  [![Version](https://custom-icon-badges.demolab.com/badge/Version%20:-v1.0.3-6479ee?logo=terminal.sylvain.pro&labelColor=23272A)](https://github.com/20syldev/terminal/releases/latest)
 </div>
 
 
