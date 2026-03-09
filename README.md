@@ -2,7 +2,7 @@
   <a href="https://terminal.sylvain.sh"><img src="https://terminal.sylvain.sh/assets/images/logo.png" alt="Logo" width="25%" height="auto"/></a>
 
   # Web Linux Terminal
-  [![Version](https://custom-icon-badges.demolab.com/badge/Version%20:-v1.0.3-6479ee?logo=terminal.sylvain.sh&labelColor=23272A)](https://github.com/20syldev/terminal/releases/latest)
+  [![Version](https://custom-icon-badges.demolab.com/badge/Version%20:-v1.0.4-6479ee?logo=terminal.sylvain.sh&labelColor=23272A)](https://github.com/20syldev/terminal/releases/latest)
 </div>
 
 
