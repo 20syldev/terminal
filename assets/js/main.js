@@ -9,7 +9,7 @@ const ascii = {
         ${c1}.ooool${c2};;;;:x${c5}K0${c4}kxxxxxk${c5}0X${c3}K0000000000.     ${c2}Packages: <span style='color: #ffffff'>0
         ${c1}:oooool${c2};,;O${c5}K${c4}ddddddddddd${c5}KX${c3}000000000d     ${c2}Shell: <span style='color: #ffffff'>Bash
         ${c1}lllllool${c2};l${c5}N${c4}dllllllllllld${c5}N${c3}K000000000     ${c2}Resolution: <span style='color: #ffffff'>${window.screen.width}x${window.screen.height}
-        ${c1}lllllllll${c2}o${c5}M${c4}dccccccccccco${c5}W${c3}K000000000     
+        ${c1}lllllllll${c2}o${c5}M${c4}dccccccccccco${c5}W${c3}K000000000
         ${c1};cllllllllX${c5}X${c4}c:::::::::c${c5}0X${c3}000000000d
         ${c1}.ccccllllllO${c5}Nk${c4}c;,,,;cx${c5}KK${c3}0000000000.
         ${c1} .cccccclllllxOO${c5}OOO${c1}Okx${c3}O0000000000;
@@ -29,11 +29,11 @@ const ascii = {
         ${c2} .KMMMMMMMMMMMMMMMMMMMMMMMWd.      ${c2}Packages: <span style='color: #ffffff'>0
         ${c2} XMMMMMMMMMMMMMMMMMMMMMMMX.        ${c2}Shell: <span style='color: #ffffff'>Bash
         ${c3};MMMMMMMMMMMMMMMMMMMMMMMM:         ${c2}Resolution: <span style='color: #ffffff'>${window.screen.width}x${window.screen.height}
-        ${c3}:MMMMMMMMMMMMMMMMMMMMMMMM:                
-        ${c4}.MMMMMMMMMMMMMMMMMMMMMMMMX.               
-        ${c4}kMMMMMMMMMMMMMMMMMMMMMMMMWd.             
-        ${c5}.XMMMMMMMMMMMMMMMMMMMMMMMMMMk            
-        ${c5}.XMMMMMMMMMMMMMMMMMMMMMMMMK.            
+        ${c3}:MMMMMMMMMMMMMMMMMMMMMMMM:
+        ${c4}.MMMMMMMMMMMMMMMMMMMMMMMMX.
+        ${c4}kMMMMMMMMMMMMMMMMMMMMMMMMWd.
+        ${c5}.XMMMMMMMMMMMMMMMMMMMMMMMMMMk
+        ${c5}.XMMMMMMMMMMMMMMMMMMMMMMMMK.
             ${c6}kMMMMMMMMMMMMMMMMMMMMMMd
             ;KMMMMMMMWXXWMMMMMMMk.
             .cooc,.    .,coo:. </span>
@@ -223,11 +223,11 @@ document.addEventListener('DOMContentLoaded', function () {
         colors: false,
         lastUser: 1000,
     };
-    
+
     let currentDir = '/';
     let sudoLogin = false;
     let stats = {
-        commands: {}, 
+        commands: {},
         files: 0,
         directories: 0,
         sudo: 0,
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function () {
     zoomButton.addEventListener('click', resizeWindow);
 
     closeButton.addEventListener('click', function () {
-        document.location.href = 'https://sylvain.pro';
+        document.location.href = 'https://sylvain.sh';
         terminal.style.display = 'none';
     });
 
@@ -491,8 +491,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 posy++;
                 posx = 0;
             } else if (event.key.length === 1) {
-                lines[posy] = line.substring(0, posx) + event.key + line.substring(posx);       
-                addedNewChar = true;         
+                lines[posy] = line.substring(0, posx) + event.key + line.substring(posx);
+                addedNewChar = true;
                 posx++;
             } else if (event.key === 'Escape') {
                 mode = 'normal';
@@ -755,7 +755,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         outputElement.appendChild(output);
                         terminalElement.scrollTop = terminalElement.scrollHeight;
                         prompt.textContent = ' > ';
-                    } 
+                    }
                     inputElement.value = '';
                     mode = 'normal'
                     eval(functionString)
@@ -1349,7 +1349,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 var output = document.createElement('div');
                 if (settings.currentUser !== 0) {
                     output.textContent = 'Bye!';
-                    window.location.href = 'https://sylvain.pro';
+                    window.location.href = 'https://sylvain.sh';
 
                 } else {
                     settings.currentUser = settings.lastUser;
@@ -1377,7 +1377,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (input.includes('--help') || input.includes('-h')) {
                     output.textContent = `Usage: usermod [options] LOGIN
 
-Options: 
+Options:
 
   -d, --home HOME_DIR           new home directory for the user account
   -h, --help                    display this help message and exit
@@ -1926,7 +1926,7 @@ Resets:               ${stats.resets}
                         posy = 0;
                         currentFileContent = fileSystemFunctions.readFileContent(currentDir + '/' + fileName) || '';
                         lines = currentFileContent.split('\n');
-                        
+
                         outputElement.innerHTML = lines.slice(0, posy).join('\n');
                         outputAfterInput.innerHTML = lines.slice(posy + 1).join('\n');
                         inputElement.value = lines[posy];

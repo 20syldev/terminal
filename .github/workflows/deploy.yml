@@ -1,4 +1,4 @@
-name: Deploy terminal.sylvain.pro
+name: Deploy terminal.sylvain.sh
 
 on:
   push:
